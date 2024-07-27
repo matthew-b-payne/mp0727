@@ -22,7 +22,6 @@ public class RentalAgreement {
     private BigDecimal preDiscountCharge;
 
 
-
     private Integer discountPercent;
     private BigDecimal discountAmount;
     private BigDecimal finalCharge;
@@ -43,11 +42,10 @@ public class RentalAgreement {
     }
 
 
-
     // Getters and Setters
-public String getId() {
-    return id;
-}
+    public String getId() {
+        return id;
+    }
 
     public void setId(String id) {
         this.id = id;
