@@ -1,0 +1,25 @@
+services:
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+  tool-rental-app:
+    image: amazoncorretto:21-alpine
+    container_name: tool-rental-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://mongodb:27017/toolrentaldb
+    restart: always
+    depends_on:
+      mongodb:
+        condition: service_started
+volumes:
+  mongo-data:
