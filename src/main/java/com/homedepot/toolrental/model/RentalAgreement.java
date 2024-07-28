@@ -4,7 +4,12 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+
+import static java.lang.System.out;
 
 @Document(collection = "rentalAgreements")
 public class RentalAgreement {
@@ -14,6 +19,8 @@ public class RentalAgreement {
 
     private String customerId; // this might be an object depending on the requirement
     private String toolCode; // this might be an object depending on the requirement
+    private String toolType;
+    private String toolBrand;
 
     private Integer rentalDays;
     private LocalDate checkOutDate;
@@ -28,9 +35,13 @@ public class RentalAgreement {
 
     }
 
-    public RentalAgreement(String customerId, Integer rentalDays, LocalDate checkOutDate, LocalDate dueDate, Integer chargeDays,
-                           BigDecimal preDiscountCharge, Integer discountPercent, BigDecimal discountAmount, BigDecimal finalCharge) {
+    public RentalAgreement(String customerId, String toolCode, String toolType, String toolBrand, Integer rentalDays,
+                           LocalDate checkOutDate, LocalDate dueDate, Integer chargeDays, BigDecimal preDiscountCharge,
+                           Integer discountPercent, BigDecimal discountAmount, BigDecimal finalCharge) {
         this.customerId = customerId;
+        this.toolCode = toolCode;
+        this.toolType = toolType;
+        this.toolBrand = toolBrand;
         this.rentalDays = rentalDays;
         this.checkOutDate = checkOutDate;
         this.dueDate = dueDate;
@@ -41,6 +52,29 @@ public class RentalAgreement {
         this.finalCharge = finalCharge;
     }
 
+
+    public void printRentalAgreement() {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MM/dd/yy");
+        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(Locale.US);
+        NumberFormat percentFormatter = NumberFormat.getPercentInstance(Locale.US);
+        percentFormatter.setMaximumFractionDigits(0);
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.format("Tool code: %s\n", toolCode));
+        sb.append(String.format("Tool type: %s\n", toolType));
+        sb.append(String.format("Tool brand: %s\n", toolBrand));
+        sb.append(String.format("Rental days: %d\n", rentalDays));
+        sb.append(String.format("Check out date: %s\n", checkOutDate.format(dateFormatter)));
+        sb.append(String.format("Due date: %s\n", dueDate.format(dateFormatter)));
+        sb.append(String.format("Daily rental charge: %s\n", currencyFormatter.format(preDiscountCharge.divide(BigDecimal.valueOf(chargeDays)))));
+        sb.append(String.format("Charge days: %d\n", chargeDays));
+        sb.append(String.format("Pre-discount charge: %s\n", currencyFormatter.format(preDiscountCharge)));
+        sb.append(String.format("Discount percent: %s\n", percentFormatter.format(discountPercent / 100.0)));
+        sb.append(String.format("Discount amount: %s\n", currencyFormatter.format(discountAmount)));
+        sb.append(String.format("Final charge: %s\n", currencyFormatter.format(finalCharge)));
+
+        out.println(sb.toString());
+    }
 
     // Getters and Setters
     public String getId() {
@@ -129,5 +163,21 @@ public class RentalAgreement {
 
     public void setFinalCharge(BigDecimal finalCharge) {
         this.finalCharge = finalCharge;
+    }
+
+    public String getToolType() {
+        return toolType;
+    }
+
+    public void setToolType(String toolType) {
+        this.toolType = toolType;
+    }
+
+    public String getToolBrand() {
+        return toolBrand;
+    }
+
+    public void setToolBrand(String toolBrand) {
+        this.toolBrand = toolBrand;
     }
 }

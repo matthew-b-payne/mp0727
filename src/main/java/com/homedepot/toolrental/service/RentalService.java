@@ -49,6 +49,9 @@ public class RentalService {
 
         RentalAgreement rentalAgreement = new RentalAgreement(
                 customerId,
+                tool.getToolCode(),
+                tool.getToolType(),
+                tool.getBrand(),
                 rentalDays,
                 checkOutDate,
                 dueDate,

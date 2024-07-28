@@ -10,7 +10,6 @@ public class Tool {
 
     @Id
     private String toolCode;
-
     private String toolType;
     private String brand;
 

@@ -83,28 +83,24 @@ public class HolidayUtilTest {
         assertFalse(HolidayUtil.isHoliday(nonHoliday));
     }
 
+
     @Test
-    public void testCalculateDayTypes() {
+    void testCalculateDayTypes() {
         LocalDate checkOutDate = LocalDate.of(2024, 7, 1);
         LocalDate returnDate = LocalDate.of(2024, 7, 10);
-
-        // Mock the behavior of isHoliday, isWeekendDay, and isBusinessDay
-        // Ensure you have these methods as public static or adapt the test accordingly
-        // Mocking static methods requires a specific setup with mockito-inline or PowerMockito
-        // Here's an example without mocking assuming the methods are not static or are refactored for easier testing
 
         // Define the expected result
         int expectedBusinessDays = 7;
         int expectedWeekendDays = 2;
-        int expectedHolidays = 1; // Assuming July 4th and the weekend observation rules
+        int expectedHolidays = 1; // Assuming July 4th
 
         // Perform the actual method call
         DayTypesResult result = HolidayUtil.calculateDayTypes(checkOutDate, returnDate);
 
         // Assert the results
-        assertEquals(expectedBusinessDays, result.getBusinessDays());
-        assertEquals(expectedWeekendDays, result.getWeekendDays());
-        assertEquals(expectedHolidays, result.getHolidays());
+        assertEquals(expectedBusinessDays, result.getBusinessDays(), "Business days count should be 7");
+        assertEquals(expectedWeekendDays, result.getWeekendDays(), "Weekend days count should be 2");
+        assertEquals(expectedHolidays, result.getHolidays(), "Holidays count should be 1");
     }
 
 }
