@@ -2,12 +2,12 @@ package com.homedepot.toolrental.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @Document(collection = "tools")
 public class Tool {
-    
+
     @Id
     private String toolCode;
 
@@ -19,6 +19,10 @@ public class Tool {
     private Boolean weekendCharge;
     private Boolean holidayCharge;
 
+    public Tool() {
+
+    }
+
     public Tool(String toolCode, String toolType, String brand, BigDecimal dailyCharge) {
         this.toolCode = toolCode;
         this.toolType = toolType;
@@ -26,7 +30,17 @@ public class Tool {
         this.dailyCharge = dailyCharge;
     }
 
-    // Getters and Setters
+    public Tool(String toolCode, String toolType, String brand, BigDecimal dailyCharge, Boolean weekdayCharge, Boolean weekendCharge, Boolean holidayCharge) {
+        this.toolCode = toolCode;
+        this.toolType = toolType;
+        this.brand = brand;
+        this.dailyCharge = dailyCharge;
+        this.weekdayCharge = weekdayCharge;
+        this.weekendCharge = weekendCharge;
+        this.holidayCharge = holidayCharge;
+    }
+
+// Getters and Setters
 
     public String getToolCode() {
         return toolCode;

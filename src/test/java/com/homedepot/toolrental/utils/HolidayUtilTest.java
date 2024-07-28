@@ -1,5 +1,6 @@
 package com.homedepot.toolrental.utils;
 
+import com.homedepot.toolrental.model.DayTypesResult;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -14,12 +15,19 @@ public class HolidayUtilTest {
     void testIsHoliday_July4() {
         LocalDate july4 = LocalDate.of(2024, 7, 4);
         assertTrue(HolidayUtil.isHoliday(july4));
+
+        LocalDate july3 = LocalDate.of(2015, 7, 3); // july 4th observed
+        assertTrue(HolidayUtil.isHoliday(july3));
+
+        LocalDate july42015 = LocalDate.of(2015, 7, 4); // july 4th on weekend
+        assertFalse(HolidayUtil.isHoliday(july42015));
     }
 
     @Test
     void testIsHoliday_LaborDay() {
         LocalDate laborDay = LocalDate.of(2024, 9, 2); // Labor Day in 2024
         assertTrue(HolidayUtil.isHoliday(laborDay));
+
     }
 
     @Test
@@ -30,8 +38,8 @@ public class HolidayUtilTest {
 
     @Test
     void testIsBusinessDay_Weekday() {
-        LocalDate weekday = LocalDate.of(2024, 7, 3); // A Wednesday
-        assertTrue(HolidayUtil.isBusinessDay(weekday));
+        LocalDate july2nd = LocalDate.of(2024, 7, 2); // A Wednesday
+        assertTrue(HolidayUtil.isBusinessDay(july2nd));
     }
 
     @Test
@@ -44,6 +52,9 @@ public class HolidayUtilTest {
     void testIsBusinessDay_Holiday() {
         LocalDate holiday = LocalDate.of(2024, 7, 4); // 4th of July
         assertFalse(HolidayUtil.isBusinessDay(holiday));
+
+        LocalDate july3rd = LocalDate.of(2015, 7, 3);
+        assertFalse(HolidayUtil.isBusinessDay(july3rd)); // july 4th is actually observed here
     }
 
     @Test
@@ -71,4 +82,29 @@ public class HolidayUtilTest {
         ZonedDateTime nonHoliday = ZonedDateTime.of(LocalDate.of(2024, 8, 1), LocalDate.now().atStartOfDay().toLocalTime(), ZoneId.systemDefault());
         assertFalse(HolidayUtil.isHoliday(nonHoliday));
     }
+
+    @Test
+    public void testCalculateDayTypes() {
+        LocalDate checkOutDate = LocalDate.of(2024, 7, 1);
+        LocalDate returnDate = LocalDate.of(2024, 7, 10);
+
+        // Mock the behavior of isHoliday, isWeekendDay, and isBusinessDay
+        // Ensure you have these methods as public static or adapt the test accordingly
+        // Mocking static methods requires a specific setup with mockito-inline or PowerMockito
+        // Here's an example without mocking assuming the methods are not static or are refactored for easier testing
+
+        // Define the expected result
+        int expectedBusinessDays = 7;
+        int expectedWeekendDays = 2;
+        int expectedHolidays = 1; // Assuming July 4th and the weekend observation rules
+
+        // Perform the actual method call
+        DayTypesResult result = HolidayUtil.calculateDayTypes(checkOutDate, returnDate);
+
+        // Assert the results
+        assertEquals(expectedBusinessDays, result.getBusinessDays());
+        assertEquals(expectedWeekendDays, result.getWeekendDays());
+        assertEquals(expectedHolidays, result.getHolidays());
+    }
+
 }

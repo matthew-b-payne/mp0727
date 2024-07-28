@@ -1,6 +1,5 @@
 package com.homedepot.toolrental.config;
 
-import com.homedepot.toolrental.model.RentalAgreement;
 import com.homedepot.toolrental.model.Tool;
 import com.homedepot.toolrental.repository.RentalRepository;
 import com.homedepot.toolrental.repository.ToolRepository;
@@ -10,7 +9,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @Configuration
 public class LoadDatabase {
@@ -26,11 +24,15 @@ public class LoadDatabase {
         return args -> {
             // Check if the database is already populated
             if (toolRepository.count() == 0) {
-                toolRepository.save(new Tool("CHNS", "Chainsaw", "Stihl", new BigDecimal("1.49")));
-//                toolRepository.save(new Tool("LADW", "Saw", "S001", new BigDecimal("2.99")));
-                toolRepository.save(new Tool("LADW", "Ladder", "Werner", new BigDecimal("1.99")));
-                toolRepository.save(new Tool("JAKD", "Jackhammer", "DeWalt", new BigDecimal("2.99")));
-                toolRepository.save(new Tool("JAKR", "Jackhammer", "Ridgid", new BigDecimal("2.99")));
+//                toolRepository.save(new Tool("CHNS", "Chainsaw", "Stihl", new BigDecimal("1.49")));
+//                toolRepository.save(new Tool("LADW", "Ladder", "Werner", new BigDecimal("1.99")));
+//                toolRepository.save(new Tool("JAKD", "Jackhammer", "DeWalt", new BigDecimal("2.99")));
+//                toolRepository.save(new Tool("JAKR", "Jackhammer", "Ridgid", new BigDecimal("2.99")));
+
+                toolRepository.save(new Tool("CHNS", "Chainsaw", "Stihl", new BigDecimal("1.49"), true, false, true));
+                toolRepository.save(new Tool("LADW", "Ladder", "Werner", new BigDecimal("1.99"), true, true, false));
+                toolRepository.save(new Tool("JAKD", "Jackhammer", "DeWalt", new BigDecimal("2.99"), true, false, false));
+                toolRepository.save(new Tool("JAKR", "Jackhammer", "Ridgid", new BigDecimal("2.99"), true, false, false));
             }
 //
 //            if (rentalRepository.count() == 0) {

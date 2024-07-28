@@ -20,8 +20,6 @@ public class RentalAgreement {
     private LocalDate dueDate;
     private Integer chargeDays;
     private BigDecimal preDiscountCharge;
-
-
     private Integer discountPercent;
     private BigDecimal discountAmount;
     private BigDecimal finalCharge;
@@ -30,7 +28,8 @@ public class RentalAgreement {
 
     }
 
-    public RentalAgreement(String customerId, Integer rentalDays, LocalDate checkOutDate, LocalDate dueDate, Integer chargeDays, BigDecimal preDiscountCharge, Integer discountPercent, BigDecimal discountAmount) {
+    public RentalAgreement(String customerId, Integer rentalDays, LocalDate checkOutDate, LocalDate dueDate, Integer chargeDays,
+                           BigDecimal preDiscountCharge, Integer discountPercent, BigDecimal discountAmount, BigDecimal finalCharge) {
         this.customerId = customerId;
         this.rentalDays = rentalDays;
         this.checkOutDate = checkOutDate;
@@ -39,6 +38,7 @@ public class RentalAgreement {
         this.preDiscountCharge = preDiscountCharge;
         this.discountPercent = discountPercent;
         this.discountAmount = discountAmount;
+        this.finalCharge = finalCharge;
     }
 
 

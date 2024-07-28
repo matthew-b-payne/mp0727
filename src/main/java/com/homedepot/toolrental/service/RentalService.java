@@ -1,9 +1,11 @@
 package com.homedepot.toolrental.service;
 
+import com.homedepot.toolrental.model.DayTypesResult;
 import com.homedepot.toolrental.model.RentalAgreement;
 import com.homedepot.toolrental.model.Tool;
 import com.homedepot.toolrental.repository.RentalRepository;
 import com.homedepot.toolrental.repository.ToolRepository;
+import com.homedepot.toolrental.utils.HolidayUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,16 +35,17 @@ public class RentalService {
 
         // Calculate due date
         LocalDate dueDate = checkOutDate.plusDays(rentalDays);
+        DayTypesResult dayTypesResult = HolidayUtil.calculateDayTypes(checkOutDate, dueDate);
 
         // Calculate charge days (assume all days are chargeable for simplicity)
-        int chargeDays = rentalDays;
+        int chargeDays = dayTypesResult.getChargeDaysForTool(tool);
 
         // Calculate pre-discount charge
-        BigDecimal preDiscountCharge = tool.getDailyCharge().multiply(BigDecimal.valueOf(chargeDays));
+        BigDecimal preDiscountCharge = calculateCharge(tool, chargeDays);
 
         // Calculate discount amount
         BigDecimal discountAmount = preDiscountCharge.multiply(BigDecimal.valueOf(discountPercent)).divide(BigDecimal.valueOf(100));
-
+        BigDecimal finalCharge = preDiscountCharge.subtract(discountAmount);
 
         RentalAgreement rentalAgreement = new RentalAgreement(
                 customerId,
@@ -52,9 +55,17 @@ public class RentalService {
                 chargeDays,
                 preDiscountCharge,
                 discountPercent,
-                discountAmount
+                discountAmount,
+                finalCharge
         );
 
         return rentalAgreement;
+    }
+
+    BigDecimal calculateCharge(Tool tool, int chargeDays) {
+        // Calculate pre-discount charge
+        BigDecimal chargeAmount = tool.getDailyCharge().multiply(BigDecimal.valueOf(chargeDays));
+
+        return chargeAmount;
     }
 }
