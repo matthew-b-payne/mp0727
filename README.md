@@ -85,8 +85,39 @@ cd mp0727
 The OpenAPI reference can be found at [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html). 
 This provides interactive documentation for all available API endpoints.  
 The api's are fairly generic rest api into the repositorys of (tools, rentals, users).  
+The checkout api call be called thru: 
+
+- **URL**: `/rentals/checkout`
+- **Method**: `POST`
+  **Payload**: ```json
+  {
+  "customerId": "mpayne",
+  "toolCode": "JAKD",
+  "rentalDays": 5,
+  "discountPercent": 0,
+  "checkOutDate": "2024-07-29"
+}```
+  **Response**:
+```json
+{
+  "id": null,
+  "customerId": "mpayne",
+  "toolCode": "JAKD",
+  "toolType": "Jackhammer",
+  "toolBrand": "DeWalt",
+  "rentalDays": 5,
+  "checkOutDate": "2024-07-29",
+  "dueDate": "2024-08-03",
+  "chargeDays": 5,
+  "preDiscountCharge": 14.95,
+  "discountPercent": 0,
+  "discountAmount": 0,
+  "finalCharge": 14.95
+}```
+
+
 By default there are 5 tools loaded at startup: 
-- **URL**: `/tools/tools?page=0&size=20
+- **URL**: `/tools/tools?page=0&size=20`
 - **Method**: `GET`
  **Response**:
 
